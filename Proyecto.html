@@ -65,24 +65,24 @@
   <p class="section-label">Categorías</p>
 </div>
  <div class="categories">
-  <div class="cat-card" onclick="setEmojiFilter('👗')">
+  <div class="cat-card" >
     <div class="cat-img" style="background:#F1EFE8">👗</div>
     <div class="cat-label">Vestidos</div>
   </div>
-  <div class="cat-card" onclick="setEmojiFilter('👕')">
+  <div class="cat-card" >
     <div class="cat-img" style="background:#E6F1FB">👕</div>
     <div class="cat-label">Tops</div>
   </div>
-  <div class="cat-card" onclick="setEmojiFilter('👖')">
+  <div class="cat-card" >
     <div class="cat-img" style="background:#E1F5EE">👖</div>
     <div class="cat-label">Pantalones</div>
   </div>
-  <div class="cat-card" onclick="setEmojiFilter('🧥')">
+  <div class="cat-card" >
     <div class="cat-img" style="background:#FAECE7">🧥</div>
     <div class="cat-label">Abrigos</div>
   </div>
 </div>
- 
+
 <!-- PRODUCTS -->
 <section class="products-section">
   <div class="section-label" style="margin-bottom:1.25rem">Productos destacados</div>
@@ -94,6 +94,7 @@
   </div>
   <div class="products" id="products-grid"></div>
 </section>
+
  
 <!-- PROMO BANNER -->
 <div class="banner">
@@ -147,21 +148,21 @@
  
 <script>
   const products = [
-    { name: "Vestido lino beige",    cat: "Mujer",  price: 189, emoji: "👗", bg: "#F1EFE8", badge: "new"  },
-    { name: "Blazer oversized",      cat: "Mujer",  price: 249, oldPrice: 320, emoji: "🧥", bg: "#E6F1FB", badge: "sale" },
-    { name: "Jogger premium",        cat: "Hombre", price: 139, emoji: "👖", bg: "#E1F5EE", badge: "new"  },
-    { name: "Camiseta essentials",   cat: "Hombre", price: 79,  emoji: "👕", bg: "#FAECE7", badge: null   },
-    { name: "Falda midi plisada",    cat: "Mujer",  price: 159, emoji: "👗", bg: "#FBEAF0", badge: "new"  },
-    { name: "Chaqueta denim",        cat: "Hombre", price: 199, oldPrice: 260, emoji: "🧥", bg: "#F1EFE8", badge: "sale" },
-    { name: "Pantalon acampanado con correa", cat:"Mujer", price: "159", emoji:"👖", bg:"pink", badge:"new"},
-    { name:"Camisa stretch", cat:"Hombre", price:"89.95", emoji:"👔", bg:"Black", badge:"new"},
-    { name:"Vestido con hombreras", cat:"Mujer", price: "189", emoji:"👗", bg:"pink", badge:"new"},
-    { name:"Chompa con medio cierre", cat:"Hombre", price:"89.95", emoji:"🧥", bg:"Brown", badge:"new"},
-    { name:"Chompa camisera", cat:"Mujer", price:"89.95", emoji:"🧥", bg:"pink", badge:"new"},
-    { name:"Casaca de beisbol", cat:"Hombre", price:"159", emoji:"🧥", bg:"Grey", badge:"new"},
-    { name:"Top frunces manga larga", cat:"Mujer", price:"139", emoji:"👕", bg:"Black", badge:"new"},
-    { name:"Pantalon jogger", cat:"Hombre", price:"159", emoji:"👖", bg:"Black", badge:"new"},
-    { name:"Body lazadas espalda descubierta", cat:"Mujer", price:"109", emoji:"👕", bg:"Brown", badge:"new"},
+    { name: "Vestido lino beige",    cat: "Mujer",  price: 189, image:"img/Vestido-lino-beige-m.jpg", bg: "#F1EFE8", badge: "new"  },
+    { name: "Blazer oversized",      cat: "Mujer",  price: 249, oldPrice: 320, image:"img/Blazer-oversized-m.jpg", bg: "#E6F1FB", badge: "sale" },
+    { name: "Jogger premium",        cat: "Hombre", price: 139, image:"img/Jogger-premium-h.jpg", bg: "#E1F5EE", badge: "new"  },
+    { name: "Camiseta essentials",   cat: "Hombre", price: 79,  image:"img/Camiseta-essentials.jpg", bg: "#FAECE7", badge: null   },
+    { name: "Falda midi plisada",    cat: "Mujer",  price: 159, image:"img/Falda-midi-plisada.jpg", bg: "#FBEAF0", badge: "new"  },
+    { name: "Chaqueta denim",        cat: "Hombre", price: 199, oldPrice: 260, image:"img/Chaqueta-denim.jpg", bg: "#F1EFE8", badge: "sale" },
+    { name: "Pantalon acampanado con correa", cat:"Mujer", price: "159", image:"img/Pantalon-acampanado-con-correa-m.jpg", bg:"pink", badge:"new"},
+    { name:"Camisa stretch", cat:"Hombre", price:"89.95", image:"img/Camisa-stretch.jpg", bg:"Black", badge:"new"},
+    { name:"Vestido con hombreras", cat:"Mujer", price: "189", image:"img/Vestido-con-hombreras.jpg", bg:"pink", badge:"new"},
+    { name:"Chompa con medio cierre", cat:"Hombre", price:"89.95", image:"img/Chompa-con-medio-cierre.jpg", bg:"Brown", badge:"new"},
+    { name:"Chompa camisera", cat:"Mujer", price:"89.95", image:"img/Chompa-camisera.jpg", bg:"pink", badge:"new"},
+    { name:"Casaca de beisbol", cat:"Hombre", price:"159", image:"img/Casaca-de-beisbol.jpg", bg:"Grey", badge:"new"},
+    { name:"Top frunces manga larga", cat:"Mujer", price:"139", image:"img/Top-frunces-manga-larga.jpg", bg:"Black", badge:"new"},
+    { name:"Pantalon jogger", cat:"Hombre", price:"159", image:"img/Pantalon-jogger.jpg", bg:"Black", badge:"new"},
+    { name:"Body lazadas espalda descubierta", cat:"Mujer", price:"109", image:"img/Body-lazadas-espalda-descubierta.jpg", bg:"Brown", badge:"new"},
   ];
  
   let cartCount = 0;
@@ -215,18 +216,20 @@
   renderProducts();
 }
 
+
+renderProducts();
 function renderProducts() {
   const grid = document.getElementById('products-grid');
   const filtered = currentFilter === "Todos" ? products
     : currentFilter === "Sale" ? products.filter(p => p.badge === "sale")
     : ["Mujer","Hombre"].includes(currentFilter) ? products.filter(p => p.cat === currentFilter)
-    : products.filter(p => p.emoji === currentFilter); // <-- aquí filtramos por emoji
+    : products.filter(p => p.image); // filtro por imagen si quieres
 
   grid.innerHTML = filtered.map(p => `
     <div class="product-card">
       <div class="product-img" style="background:${p.bg}">
         ${p.badge ? `<span class="badge ${p.badge === 'new' ? 'badge-new' : 'badge-sale'}">${p.badge === 'new' ? 'Nuevo' : 'Sale'}</span>` : ''}
-        <span style="font-size:48px">${p.emoji}</span>
+        <img src="${p.image}" alt="${p.name}" style="width:100px;height:auto"/>
       </div>
       <div class="product-info">
         <div class="product-name">${p.name}</div>
@@ -242,7 +245,7 @@ function renderProducts() {
     </div>
   `).join('');
 }
-renderProducts();
 </script>
+
 </body>
 </html>
