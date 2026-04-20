@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nova Street</title>
   <link rel="stylesheet" href="css/1.css">
-  
-  </style>
 </head>
 <body>
  
@@ -14,9 +12,7 @@
  
 <!-- NAVBAR -->
 <nav>
-  <span class="logo">NOVA
-
-  </span>
+  <span class="logo">NOVA</span>
   <ul class="nav-links">
     <li><a href="#">Mujer</a></li>
     <li><a href="#">Hombre</a></li>
@@ -61,23 +57,23 @@
 </section>
  
 <!-- CATEGORIES -->
- <div class="section-header">
+<div class="section-header">
   <p class="section-label">Categorías</p>
 </div>
- <div class="categories">
-  <div class="cat-card" >
+<div class="categories">
+  <div class="cat-card">
     <div class="cat-img" style="background:#F1EFE8">👗</div>
     <div class="cat-label">Vestidos</div>
   </div>
-  <div class="cat-card" >
+  <div class="cat-card">
     <div class="cat-img" style="background:#E6F1FB">👕</div>
     <div class="cat-label">Tops</div>
   </div>
-  <div class="cat-card" >
+  <div class="cat-card">
     <div class="cat-img" style="background:#E1F5EE">👖</div>
     <div class="cat-label">Pantalones</div>
   </div>
-  <div class="cat-card" >
+  <div class="cat-card">
     <div class="cat-img" style="background:#FAECE7">🧥</div>
     <div class="cat-label">Abrigos</div>
   </div>
@@ -94,7 +90,6 @@
   </div>
   <div class="products" id="products-grid"></div>
 </section>
-
  
 <!-- PROMO BANNER -->
 <div class="banner">
@@ -145,47 +140,112 @@
     <span>Hecho con cuidado en Lima, Perú</span>
   </div>
 </footer>
+
+<!-- BARRA FLOTANTE DEL CARRITO — AGREGADO -->
+<div class="cart-bar" id="cart-bar">
+  <div class="cart-info">
+    <span class="cart-bar-names" id="cart-bar-names"></span>
+    <span class="cart-bar-total" id="cart-bar-total"></span>
+  </div>
+  <button class="cart-bar-btn">Ir al carrito →</button>
+</div>
  
 <script>
+  // Tu array original — solo se agregó id y qty:0 a cada producto
   const products = [
-    { name: "Vestido lino beige",    cat: "Mujer",  price: 189, image:"img/Vestido-lino-beige-m.jpg", bg: "#F1EFE8", badge: "new"  },
-    { name: "Blazer oversized",      cat: "Mujer",  price: 249, oldPrice: 320, image:"img/Blazer-oversized-m.jpg", bg: "#E6F1FB", badge: "sale" },
-    { name: "Jogger premium",        cat: "Hombre", price: 139, image:"img/Jogger-premium-h.jpg", bg: "#E1F5EE", badge: "new"  },
-    { name: "Camiseta essentials",   cat: "Hombre", price: 79,  image:"img/Camiseta-essentials.jpg", bg: "#FAECE7", badge: null   },
-    { name: "Falda midi plisada",    cat: "Mujer",  price: 159, image:"img/Falda-midi-plisada.jpg", bg: "#FBEAF0", badge: "new"  },
-    { name: "Chaqueta denim",        cat: "Hombre", price: 199, oldPrice: 260, image:"img/Chaqueta-denim.jpg", bg: "#F1EFE8", badge: "sale" },
-    { name: "Pantalon acampanado con correa", cat:"Mujer", price: "159", image:"img/Pantalon-acampanado-con-correa-m.jpg", bg:"pink", badge:"new"},
-    { name:"Camisa stretch", cat:"Hombre", price:"89.95", image:"img/Camisa-stretch.jpg", bg:"Black", badge:"new"},
-    { name:"Vestido con hombreras", cat:"Mujer", price: "189", image:"img/Vestido-con-hombreras.jpg", bg:"pink", badge:"new"},
-    { name:"Chompa con medio cierre", cat:"Hombre", price:"89.95", image:"img/Chompa-con-medio-cierre.jpg", bg:"Brown", badge:"new"},
-    { name:"Chompa camisera", cat:"Mujer", price:"89.95", image:"img/Chompa-camisera.jpg", bg:"pink", badge:"new"},
-    { name:"Casaca de beisbol", cat:"Hombre", price:"159", image:"img/Casaca-de-beisbol.jpg", bg:"Grey", badge:"new"},
-    { name:"Top frunces manga larga", cat:"Mujer", price:"139", image:"img/Top-frunces-manga-larga.jpg", bg:"Black", badge:"new"},
-    { name:"Pantalon jogger", cat:"Hombre", price:"159", image:"img/Pantalon-jogger.jpg", bg:"Black", badge:"new"},
-    { name:"Body lazadas espalda descubierta", cat:"Mujer", price:"109", image:"img/Body-lazadas-espalda-descubierta.jpg", bg:"Brown", badge:"new"},
+    { id:1,  qty:0, name:"Vestido lino beige",                  cat:"Mujer",  price:189,              image:"img/Vestido-lino-beige-m.jpg",             bg:"#F1EFE8", badge:"new"  },
+    { id:2,  qty:0, name:"Blazer oversized",                    cat:"Mujer",  price:249, oldPrice:320, image:"img/Blazer-oversized-m.jpg",               bg:"#E6F1FB", badge:"sale" },
+    { id:3,  qty:0, name:"Jogger premium",                      cat:"Hombre", price:139,              image:"img/Jogger-premium-h.jpg",                  bg:"#E1F5EE", badge:"new"  },
+    { id:4,  qty:0, name:"Camiseta essentials",                 cat:"Hombre", price:79,               image:"img/Camiseta-essentials.jpg",               bg:"#FAECE7", badge:null   },
+    { id:5,  qty:0, name:"Falda midi plisada",                  cat:"Mujer",  price:159,              image:"img/Falda-midi-plisada.jpg",                bg:"#FBEAF0", badge:"new"  },
+    { id:6,  qty:0, name:"Chaqueta denim",                      cat:"Hombre", price:199, oldPrice:260, image:"img/Chaqueta-denim.jpg",                   bg:"#F1EFE8", badge:"sale" },
+    { id:7,  qty:0, name:"Pantalon acampanado con correa",      cat:"Mujer",  price:"159",            image:"img/Pantalon-acampanado-con-correa-m.jpg",  bg:"pink",    badge:"new"  },
+    { id:8,  qty:0, name:"Camisa stretch",                      cat:"Hombre", price:"89.95",          image:"img/Camisa-stretch.jpg",                    bg:"Black",   badge:"new"  },
+    { id:9,  qty:0, name:"Vestido con hombreras",               cat:"Mujer",  price:"189",            image:"img/Vestido-con-hombreras.jpg",             bg:"pink",    badge:"new"  },
+    { id:10, qty:0, name:"Chompa con medio cierre",             cat:"Hombre", price:"89.95",          image:"img/Chompa-con-medio-cierre.jpg",           bg:"Brown",   badge:"new"  },
+    { id:11, qty:0, name:"Chompa camisera",                     cat:"Mujer",  price:"89.95",          image:"img/Chompa-camisera.jpg",                   bg:"pink",    badge:"new"  },
+    { id:12, qty:0, name:"Casaca de beisbol",                   cat:"Hombre", price:"159",            image:"img/Casaca-de-beisbol.jpg",                 bg:"Grey",    badge:"new"  },
+    { id:13, qty:0, name:"Top frunces manga larga",             cat:"Mujer",  price:"139",            image:"img/Top-frunces-manga-larga.jpg",           bg:"Black",   badge:"new"  },
+    { id:14, qty:0, name:"Pantalon jogger",                     cat:"Hombre", price:"159",            image:"img/Pantalon-jogger.jpg",                   bg:"Black",   badge:"new"  },
+    { id:15, qty:0, name:"Body lazadas espalda descubierta",    cat:"Mujer",  price:"109",            image:"img/Body-lazadas-espalda-descubierta.jpg",  bg:"Brown",   badge:"new"  },
   ];
  
   let cartCount = 0;
   let currentFilter = "Todos";
  
+  // Tu función original, sin cambios
   function setFilter(btn, filter) {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentFilter = filter;
     renderProducts();
   }
- 
+
+  // Tu función original, sin cambios
+  function setEmojiFilter(emoji) {
+    currentFilter = emoji;
+    renderProducts();
+  }
+
+  // MODIFICADO: ahora recibe id y suma qty del producto
+  function addToCart(id) {
+    const p = products.find(p => p.id === id);
+    if (!p) return;
+    p.qty++;
+    cartCount++;
+    document.getElementById('cart-count').textContent = cartCount;
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2200);
+    renderProducts();
+    renderCartBar();
+  }
+
+  // NUEVO: quita una unidad del producto
+  function removeFromCart(id) {
+    const p = products.find(p => p.id === id);
+    if (!p || p.qty === 0) return;
+    p.qty--;
+    cartCount--;
+    document.getElementById('cart-count').textContent = cartCount;
+    renderProducts();
+    renderCartBar();
+  }
+
+  // NUEVO: muestra/oculta la barra flotante del carrito
+  function renderCartBar() {
+    const bar     = document.getElementById('cart-bar');
+    const namesEl = document.getElementById('cart-bar-names');
+    const totalEl = document.getElementById('cart-bar-total');
+
+    const items = products.filter(p => p.qty > 0);
+
+    if (!items.length) {
+      bar.classList.remove('visible');
+      return;
+    }
+
+    const totalAmt = items.reduce((sum, p) => sum + parseFloat(p.price) * p.qty, 0);
+    const totalQty = items.reduce((sum, p) => sum + p.qty, 0);
+
+    namesEl.textContent = items.map(p => `${p.name} ×${p.qty}`).join('  ·  ');
+    totalEl.textContent = `S/ ${totalAmt.toFixed(2)}  ·  ${totalQty} ${totalQty === 1 ? 'producto' : 'productos'}`;
+    bar.classList.add('visible');
+  }
+
+  // Tu función original — solo se cambió el botón + por el grupo − número +
   function renderProducts() {
     const grid = document.getElementById('products-grid');
     const filtered = currentFilter === "Todos" ? products
       : currentFilter === "Sale" ? products.filter(p => p.badge === "sale")
-      : products.filter(p => p.cat === currentFilter);
- 
+      : ["Mujer","Hombre"].includes(currentFilter) ? products.filter(p => p.cat === currentFilter)
+      : products.filter(p => p.image);
+
     grid.innerHTML = filtered.map(p => `
       <div class="product-card">
         <div class="product-img" style="background:${p.bg}">
           ${p.badge ? `<span class="badge ${p.badge === 'new' ? 'badge-new' : 'badge-sale'}">${p.badge === 'new' ? 'Nuevo' : 'Sale'}</span>` : ''}
-          <span style="font-size:48px">${p.emoji}</span>
+          <img src="${p.image}" alt="${p.name}" style="width:100px;height:auto"/>
         </div>
         <div class="product-info">
           <div class="product-name">${p.name}</div>
@@ -195,56 +255,20 @@
               <span class="price">S/ ${p.price}</span>
               ${p.oldPrice ? `<span class="price-old">S/ ${p.oldPrice}</span>` : ''}
             </div>
-            <button class="add-btn" onclick="addToCart()">+</button>
+            <div class="qty-ctrl">
+              ${p.qty > 0 ? `
+                <button class="minus-btn" onclick="removeFromCart(${p.id})">−</button>
+                <span class="qty-num">${p.qty}</span>
+              ` : ''}
+              <button class="add-btn" onclick="addToCart(${p.id})">+</button>
+            </div>
           </div>
         </div>
       </div>
     `).join('');
   }
- 
-  function addToCart() {
-    cartCount++;
-    document.getElementById('cart-count').textContent = cartCount;
-    const toast = document.getElementById('toast');
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2200);
-  }
 
-  //Funcion de filtro de la categoria
-  function setEmojiFilter(emoji) {
-  currentFilter = emoji; // guardamos el emoji como filtro
   renderProducts();
-}
-
-
-renderProducts();
-function renderProducts() {
-  const grid = document.getElementById('products-grid');
-  const filtered = currentFilter === "Todos" ? products
-    : currentFilter === "Sale" ? products.filter(p => p.badge === "sale")
-    : ["Mujer","Hombre"].includes(currentFilter) ? products.filter(p => p.cat === currentFilter)
-    : products.filter(p => p.image); // filtro por imagen si quieres
-
-  grid.innerHTML = filtered.map(p => `
-    <div class="product-card">
-      <div class="product-img" style="background:${p.bg}">
-        ${p.badge ? `<span class="badge ${p.badge === 'new' ? 'badge-new' : 'badge-sale'}">${p.badge === 'new' ? 'Nuevo' : 'Sale'}</span>` : ''}
-        <img src="${p.image}" alt="${p.name}" style="width:100px;height:auto"/>
-      </div>
-      <div class="product-info">
-        <div class="product-name">${p.name}</div>
-        <div class="product-cat">${p.cat}</div>
-        <div class="product-footer">
-          <div>
-            <span class="price">S/ ${p.price}</span>
-            ${p.oldPrice ? `<span class="price-old">S/ ${p.oldPrice}</span>` : ''}
-          </div>
-          <button class="add-btn" onclick="addToCart()">+</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
 </script>
 
 </body>
