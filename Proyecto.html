@@ -27,7 +27,7 @@
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
     </button>
     <div class="cart-wrapper">
-      <button class="icon-btn" title="Carrito">
+      <button class="icon-btn" title="Carrito" onclick="window.location.href='carrito.html'">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
       </button>
       <span class="cart-badge" id="cart-count">0</span>
@@ -78,7 +78,7 @@
     <div class="cat-label">Abrigos</div>
   </div>
 </div>
-
+ 
 <!-- PRODUCTS -->
 <section class="products-section">
   <div class="section-label" style="margin-bottom:1.25rem">Productos destacados</div>
@@ -140,18 +140,18 @@
     <span>Hecho con cuidado en Lima, Perú</span>
   </div>
 </footer>
-
-<!-- BARRA FLOTANTE DEL CARRITO — AGREGADO -->
+ 
+<!-- BARRA FLOTANTE DEL CARRITO -->
 <div class="cart-bar" id="cart-bar">
   <div class="cart-info">
     <span class="cart-bar-names" id="cart-bar-names"></span>
     <span class="cart-bar-total" id="cart-bar-total"></span>
   </div>
-  <button class="cart-bar-btn">Ir al carrito →</button>
+  <!-- ✅ CAMBIO: onclick navega a carrito.html -->
+  <button class="cart-bar-btn" onclick="window.location.href='carrito.html'">Ir al carrito →</button>
 </div>
  
 <script>
-  // Tu array original — solo se agregó id y qty:0 a cada producto
   const products = [
     { id:1,  qty:0, name:"Vestido lino beige",                  cat:"Mujer",  price:189,              image:"img/Vestido-lino-beige-m.png",              bg:"#F1EFE8",   badge:"new"},
     { id:2,  qty:0, name:"Blazer oversized",                    cat:"Mujer",  price:249, oldPrice:320,image:"img/Blazer-oversized-m.png",                bg:"#E6F1FB",  badge:"sale"},
@@ -198,21 +198,42 @@
   let cartCount = 0;
   let currentFilter = "Todos";
  
-  // Tu función original, sin cambios
+  // ✅ NUEVO: restaurar carrito desde localStorage al cargar la página
+  (function restaurarCarrito() {
+    const guardado = localStorage.getItem("carritoNovaStreet");
+    if (!guardado) return;
+    const items = JSON.parse(guardado);
+    items.forEach(function(item) {
+      const p = products.find(function(p) { return p.id === item.id; });
+      if (p) { p.qty = item.qty; }
+    });
+    cartCount = products.reduce(function(sum, p) { return sum + p.qty; }, 0);
+    document.getElementById('cart-count').textContent = cartCount;
+  })();
+ 
+  // ✅ NUEVO: guardar carrito en localStorage
+  function guardarCarritoLocal() {
+    const items = products
+      .filter(function(p) { return p.qty > 0; })
+      .map(function(p) {
+        return { id: p.id, name: p.name, cat: p.cat, price: p.price, image: p.image, bg: p.bg, qty: p.qty };
+      });
+    localStorage.setItem("carritoNovaStreet", JSON.stringify(items));
+  }
+ 
   function setFilter(btn, filter) {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentFilter = filter;
     renderProducts();
   }
-
-  // Tu función original, sin cambios
+ 
   function setEmojiFilter(emoji) {
     currentFilter = emoji;
     renderProducts();
   }
-
-  // MODIFICADO: ahora recibe id y suma qty del producto
+ 
+  // ✅ MODIFICADO: ahora guarda en localStorage
   function addToCart(id) {
     const p = products.find(p => p.id === id);
     if (!p) return;
@@ -222,50 +243,50 @@
     const toast = document.getElementById('toast');
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 2200);
+    guardarCarritoLocal(); // ✅
     renderProducts();
     renderCartBar();
   }
-
-  // NUEVO: quita una unidad del producto
+ 
+  // ✅ MODIFICADO: ahora guarda en localStorage
   function removeFromCart(id) {
     const p = products.find(p => p.id === id);
     if (!p || p.qty === 0) return;
     p.qty--;
     cartCount--;
     document.getElementById('cart-count').textContent = cartCount;
+    guardarCarritoLocal(); // ✅
     renderProducts();
     renderCartBar();
   }
-
-  // NUEVO: muestra/oculta la barra flotante del carrito
+ 
   function renderCartBar() {
     const bar     = document.getElementById('cart-bar');
     const namesEl = document.getElementById('cart-bar-names');
     const totalEl = document.getElementById('cart-bar-total');
-
+ 
     const items = products.filter(p => p.qty > 0);
-
+ 
     if (!items.length) {
       bar.classList.remove('visible');
       return;
     }
-
+ 
     const totalAmt = items.reduce((sum, p) => sum + parseFloat(p.price) * p.qty, 0);
     const totalQty = items.reduce((sum, p) => sum + p.qty, 0);
-
+ 
     namesEl.textContent = items.map(p => `${p.name} ×${p.qty}`).join('  ·  ');
     totalEl.textContent = `S/ ${totalAmt.toFixed(2)}  ·  ${totalQty} ${totalQty === 1 ? 'producto' : 'productos'}`;
     bar.classList.add('visible');
   }
-
-  // Tu función original — solo se cambió el botón + por el grupo − número +
+ 
   function renderProducts() {
     const grid = document.getElementById('products-grid');
     const filtered = currentFilter === "Todos" ? products
       : currentFilter === "Sale" ? products.filter(p => p.badge === "sale")
       : ["Mujer","Hombre"].includes(currentFilter) ? products.filter(p => p.cat === currentFilter)
       : products.filter(p => p.image);
-
+ 
     grid.innerHTML = filtered.map(p => `
       <div class="product-card">
         <div class="product-img" style="background:${p.bg}">
@@ -292,9 +313,10 @@
       </div>
     `).join('');
   }
-
+ 
   renderProducts();
+  renderCartBar(); // ✅ mostrar barra si había carrito guardado
 </script>
-
+ 
 </body>
 </html>
