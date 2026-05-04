@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nova Street</title>
-  <link rel="stylesheet" href="css/1.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mujeres</title>
+    <link rel="stylesheet" href="css/1.css">
 </head>
 <body>
- 
+     
 <div class="toast" id="toast">Producto añadido al carrito</div>
  
 <!-- NAVBAR -->
@@ -38,65 +38,77 @@
   Envío gratis en compras mayores a S/ 199 &nbsp;·&nbsp; Usa el código: <strong>ENVINOVA10</strong>
 </div>
  
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-text">
-    <span class="hero-tag">Nueva colección 2026</span>
-    <h1>Estilo que<br>habla por ti</h1>
-    <p>Prendas contemporáneas diseñadas para el día a día. Calidad premium, precios accesibles.</p>
-    <div class="hero-btns">
-      <button class="btn-primary">Ver colección</button>
-      <button class="btn-outline">Guía de tallas</button>
-    </div>
-  </div>
-  <div class="hero-visual">
-    <img src="img/preview.webp" alt="" width="460">
-  </div>
-</section>
- 
 <!-- CATEGORIES -->
-<div class="section-header">
+ <div class="section-header">
   <p class="section-label">Categorías</p>
 </div>
 <div class="categories">
-  <div class="cat-card">
-    <div class="cat-img" style="background:#F1EFE8">👗</div>
-    <div class="cat-label">Vestidos</div>
-  </div>
-  <div class="cat-card">
-    <div class="cat-img" style="background:#E6F1FB">👕</div>
-    <div class="cat-label">Tops</div>
-  </div>
-  <div class="cat-card">
-    <div class="cat-img" style="background:#E1F5EE">👖</div>
-    <div class="cat-label">Pantalones</div>
-  </div>
-  <div class="cat-card">
-    <div class="cat-img" style="background:#FAECE7">🧥</div>
-    <div class="cat-label">Abrigos</div>
-  </div>
+    <div class="cat-card" data-cat="Vestidos">
+        <div class="cat-img" style="background:#F1EFE8">👗</div>
+        <div class="cat-label">Vestidos</div>
+    </div>
+
+    <div class="cat-card" data-cat="Tops">
+        <div class="cat-img" style="background:#E6F1FB">👕</div>
+        <div class="cat-label">Tops</div>
+    </div>
+
+    <div class="cat-card" data-cat="Blazers">
+        <div class="cat-img" style="background:#F1EFE8">👗</div>
+        <div class="cat-label">Blazers</div>
+    </div>
+
+    <div class="cat-card" data-cat="Blusas">
+        <div class="cat-img" style="background:#F1EFE8">👗</div>
+        <div class="cat-label">Blusas</div>
+    </div>
+
+    <div class="cat-card" data-cat="Buzos">
+       <div class="cat-img" style="background:#F1EFE8">👗</div>
+       <div class="cat-label">Buzos</div>
+    </div>
+
+    <div class="cat-card" data-cat="Pantalones">
+       <div class="cat-img" style="background:#E1F5EE">👖</div>
+       <div class="cat-label">Pantalones</div>
+    </div>
+
+    <div class="cat-card" data-cat="Shorts">
+        <div class="cat-img" style="background:#E1F5EE">👖</div>
+        <div class="cat-label">Shorts</div>
+    </div>
+
+    <div class="cat-card" data-cat="Faldas">
+        <div class="cat-img" style="background:#F1EFE8">👗</div>
+        <div class="cat-label">Faldas</div>
+    </div>
+
+    <div class="cat-card" data-cat="Chompas">
+        <div class="cat-img" style="background:#FAECE7">🧥</div>
+        <div class="cat-label">Chompas</div>
+    </div>
+
+    <div class="cat-card" data-cat="Chaquetas">
+        <div class="cat-img" style="background:#FAECE7">🧥</div>
+        <div class="cat-label">Chaquetas</div>
+    </div>
+
+    <div class="cat-card" data-cat="Casacas">
+        <div class="cat-img" style="background:#FAECE7">🧥</div>
+        <div class="cat-label">Casacas</div>
+    </div>
 </div>
+
  
 <!-- PRODUCTS -->
 <section class="products-section">
   <div class="section-label" style="margin-bottom:1.25rem">Productos destacados</div>
   <div class="filters">
-    <button class="filter-btn active" onclick="setFilter(this,'Todos')">Todos</button>
-    <button class="filter-btn" onclick="setFilter(this,'Mujer')">Mujer</button>
-    <button class="filter-btn" onclick="setFilter(this,'Hombre')">Hombre</button>
-    <button class="filter-btn" onclick="setFilter(this,'Sale')">Sale</button>
+    <button class="filter-btn" onclick="setTodosFilter(this)">Todos</button>
+    <button class="filter-btn" onclick="setSaleFilter(this)">Sale</button>
   </div>
   <div class="products" id="products-grid"></div>
 </section>
- 
-<!-- PROMO BANNER -->
-<div class="banner">
-  <div>
-    <h2>Hasta 40% de descuento</h2>
-    <p>En prendas seleccionadas de la temporada anterior</p>
-  </div>
-  <button class="btn-white">Ver ofertas</button>
-</div>
  
 <!-- FOOTER -->
 <footer>
@@ -148,7 +160,6 @@
   <!-- ✅ CAMBIO: onclick navega a carrito.html -->
   <button class="cart-bar-btn" onclick="window.location.href='carrito.html'">Ir al carrito →</button>
 </div>
- 
-<script src="js/Proyecto.js"></script>
+ <script src="js/mujeres.js"></script>
 </body>
 </html>
