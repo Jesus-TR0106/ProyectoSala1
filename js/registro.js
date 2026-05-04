@@ -1,14 +1,13 @@
 /*
     Archivo: js/registro.js
     Proyecto: Nova Street
-    Objetivo: Registrar nuevos usuarios en localStorage.
 */
  
-const formRegistro      = document.getElementById("formRegistro");
-const nombreRegistro    = document.getElementById("nombreRegistro");
-const correoRegistro    = document.getElementById("correoRegistro");
-const claveRegistro     = document.getElementById("claveRegistro");
-const mensajeRegistro   = document.getElementById("mensajeRegistro");
+const formRegistro    = document.getElementById("formRegistro");
+const nombreRegistro  = document.getElementById("nombreRegistro");
+const correoRegistro  = document.getElementById("correoRegistro");
+const claveRegistro   = document.getElementById("claveRegistro");
+const mensajeRegistro = document.getElementById("mensajeRegistro");
  
 formRegistro.addEventListener("submit", function (evento) {
     evento.preventDefault();
@@ -62,7 +61,8 @@ formRegistro.addEventListener("submit", function (evento) {
     claveRegistro.value  = "";
  
     setTimeout(function () {
-        window.location.href = "login.html";
+        window.location.href = "login.html"; // ✅ mismo nivel
     }, 1200);
 });
+
  

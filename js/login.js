@@ -1,13 +1,12 @@
 /*
     Archivo: js/login.js
     Proyecto: Nova Street
-    Objetivo: Iniciar sesión y redirigir al carrito o a la tienda.
 */
  
-const formLogin     = document.getElementById("formLogin");
-const correoLogin   = document.getElementById("correoLogin");
-const claveLogin    = document.getElementById("claveLogin");
-const mensajeLogin  = document.getElementById("mensajeLogin");
+const formLogin    = document.getElementById("formLogin");
+const correoLogin  = document.getElementById("correoLogin");
+const claveLogin   = document.getElementById("claveLogin");
+const mensajeLogin = document.getElementById("mensajeLogin");
  
 formLogin.addEventListener("submit", function (evento) {
     evento.preventDefault();
@@ -45,20 +44,19 @@ formLogin.addEventListener("submit", function (evento) {
         return;
     }
  
-    // Guardamos sesión
     localStorage.setItem("usuarioActivoNovaStreet", JSON.stringify(usuarioEncontrado));
  
     mensajeLogin.textContent = "Sesión iniciada. Redirigiendo...";
     mensajeLogin.style.color = "#0F6E56";
  
     setTimeout(function () {
-        // Si vino desde el carrito, regresamos ahí; si no, a la tienda
+        // Si vino desde el carrito, regresa ahí; si no, al inicio
         const origen = localStorage.getItem("novaOrigenLogin");
         if (origen === "carrito") {
             localStorage.removeItem("novaOrigenLogin");
-            window.location.href = "carrito.html";
+            window.location.href = "carrito.html";   // ✅ mismo nivel
         } else {
-            window.location.href = "index.html";
+            window.location.href = "Proyecto.html";  // ✅ nombre real del archivo
         }
     }, 1000);
 });
