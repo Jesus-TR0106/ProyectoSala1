@@ -246,6 +246,6 @@ document.getElementById("formEnvio").addEventListener("submit", function (evento
     setTimeout(function () { renderCarrito(); }, 800);
 });
  
-INICIO
+//INICIO
 
 renderCarrito();
