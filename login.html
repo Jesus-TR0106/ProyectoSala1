@@ -19,10 +19,12 @@
       <div class="field">
         <label for="correoLogin">Correo electrónico</label>
         <input type="email" id="correoLogin" placeholder="tu@correo.com" required/>
+        <div class="mensaje error" id="error-correo-login"></div>
       </div>
       <div class="field">
         <label for="claveLogin">Contraseña</label>
         <input type="password" id="claveLogin" placeholder="••••••••" required/>
+        <div class="mensaje error" id="error-clave-login"></div>
       </div>
       <button type="submit" class="auth-btn">Iniciar sesión</button>
     </form>
@@ -38,6 +40,7 @@
   </div>
 </div>
  
+<script src="js/shared.js"></script>
 <script src="js/login.js"></script>
 </body>
 </html>

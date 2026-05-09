@@ -15,6 +15,7 @@
     <li><a href="Proyecto.html">Inicio</a></li>
     <li><a href="Mujeres.html">Mujer</a></li>
     <li><a href="Hombres.html">Hombre</a></li>
+    <li><a href="nuestrastiendas.html">Tiendas</a></li>
   </ul>
   <div class="nav-right">
     <span class="nav-user" id="nombreUsuario"></span>
@@ -67,10 +68,12 @@
       <div class="field">
         <label for="direccion">Dirección</label>
         <input type="text" id="direccion" placeholder="Av. Arequipa 123, Lima" required/>
+        <div class="mensaje error" id="error-direccion"></div>
       </div>
       <div class="field">
         <label for="telefono">Teléfono</label>
         <input type="tel" id="telefono" placeholder="987654321" required/>
+        <div class="mensaje error" id="error-telefono"></div>
       </div>
       <button type="submit" class="btn-confirmar">Confirmar pedido ✓</button>
     </form>
@@ -80,6 +83,7 @@
  
 </div>
  
+<script src="js/shared.js"></script>
 <script src="js/carrito.js"></script>
 </body>
 </html>

@@ -17,14 +17,16 @@
     <li><a href="Proyecto.html">Inicio</a></li>
     <li><a href="Mujeres.html">Mujer</a></li>
     <li><a href="Hombres.html">Hombre</a></li>
+    <li><a href="nuestrastiendas.html">Tiendas</a></li>
   </ul>
   <div class="nav-right">
-    <button class="icon-btn" title="Buscar">
+    <button class="icon-btn" title="Buscar" onclick="openSearch()">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
     </button>
-    <button class="icon-btn" title="Favoritos">
+    <button class="icon-btn" title="Favoritos" onclick="toggleFavoritesView()">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
     </button>
+    <div class="nav-user" id="nav-user"></div>
     <div class="cart-wrapper">
       <button class="icon-btn" title="Carrito" onclick="window.location.href='carrito.html'">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
@@ -33,6 +35,49 @@
     </div>
   </div>
 </nav>
+
+<!-- Búsqueda -->
+<div id="search-modal" class="modal-overlay" onclick="closeSearch(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Buscar productos</h2>
+      <button class="modal-close" onclick="closeSearch()">✕</button>
+    </div>
+    <input type="text" id="search-input" class="search-input" placeholder="Busca por nombre..." oninput="searchProducts(this.value)">
+    <div id="search-results" class="search-results"></div>
+  </div>
+</div>
+
+<!-- Guía de Tallas -->
+<div id="size-modal" class="modal-overlay" onclick="closeSizeGuide(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Guía de Tallas</h2>
+      <button class="modal-close" onclick="closeSizeGuide()">✕</button>
+    </div>
+    <div class="size-guide">
+      <h3>Prendas Mujer</h3>
+      <table>
+        <tr><th>Talla</th><th>Pecho (cm)</th><th>Cintura (cm)</th><th>Cadera (cm)</th></tr>
+        <tr><td>XS</td><td>80-84</td><td>62-66</td><td>88-92</td></tr>
+        <tr><td>S</td><td>84-88</td><td>66-70</td><td>92-96</td></tr>
+        <tr><td>M</td><td>88-92</td><td>70-74</td><td>96-100</td></tr>
+        <tr><td>L</td><td>92-96</td><td>74-78</td><td>100-104</td></tr>
+        <tr><td>XL</td><td>96-100</td><td>78-82</td><td>104-108</td></tr>
+      </table>
+      <h3>Prendas Hombre</h3>
+      <table>
+        <tr><th>Talla</th><th>Pecho (cm)</th><th>Cintura (cm)</th><th>Largo (cm)</th></tr>
+        <tr><td>S</td><td>88-96</td><td>74-78</td><td>66-68</td></tr>
+        <tr><td>M</td><td>96-104</td><td>78-82</td><td>68-70</td></tr>
+        <tr><td>L</td><td>104-112</td><td>82-86</td><td>70-72</td></tr>
+        <tr><td>XL</td><td>112-120</td><td>86-94</td><td>72-74</td></tr>
+        <tr><td>XXL</td><td>120-128</td><td>94-102</td><td>74-76</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
  
 <!-- PROMO BAR -->
 <div class="promo-bar">
@@ -46,8 +91,8 @@
     <h1>Estilo que<br>habla por ti</h1>
     <p>Prendas contemporáneas diseñadas para el día a día. Calidad premium, precios accesibles.</p>
     <div class="hero-btns">
-      <button class="btn-primary">Ver colección</button>
-      <button class="btn-outline">Guía de tallas</button>
+      <button class="btn-primary" onclick="scrollToProducts(); setFilter(event.target, 'Todos')">Ver colección</button>
+      <button class="btn-outline" onclick="openSizeGuide()">Guía de tallas</button>
     </div>
   </div>
   <div class="hero-visual">
@@ -60,19 +105,19 @@
   <p class="section-label">Categorías</p>
 </div>
 <div class="categories">
-  <div class="cat-card">
+  <div class="cat-card" onclick="filterByCategory('Vestidos')" title="Ver Vestidos">
     <div class="cat-img" style="background:#F1EFE8">👗</div>
     <div class="cat-label">Vestidos</div>
   </div>
-  <div class="cat-card">
+  <div class="cat-card" onclick="filterByCategory('Tops')" title="Ver Tops">
     <div class="cat-img" style="background:#E6F1FB">👕</div>
     <div class="cat-label">Tops</div>
   </div>
-  <div class="cat-card">
+  <div class="cat-card" onclick="filterByCategory('Pantalones')" title="Ver Pantalones">
     <div class="cat-img" style="background:#E1F5EE">👖</div>
     <div class="cat-label">Pantalones</div>
   </div>
-  <div class="cat-card">
+  <div class="cat-card" onclick="filterByCategory('Abrigos')" title="Ver Abrigos">
     <div class="cat-img" style="background:#FAECE7">🧥</div>
     <div class="cat-label">Abrigos</div>
   </div>
@@ -96,7 +141,7 @@
     <h2>Hasta 40% de descuento</h2>
     <p>En prendas seleccionadas de la temporada anterior</p>
   </div>
-  <button class="btn-white">Ver ofertas</button>
+  <button class="btn-white" onclick="scrollToProducts(); setFilter(event.target, 'Sale')">Ver ofertas</button>
 </div>
  
 <!-- FOOTER -->
@@ -149,7 +194,9 @@
   <!-- ✅ CAMBIO: onclick navega a carrito.html -->
   <button class="cart-bar-btn" onclick="window.location.href='carrito.html'">Ir al carrito →</button>
 </div>
- 
+
+<script src="js/products.js"></script>
+<script src="js/shared.js"></script>
 <script src="js/Proyecto.js"></script>
 </body>
 </html>

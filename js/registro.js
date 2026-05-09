@@ -16,23 +16,41 @@ formRegistro.addEventListener("submit", function (evento) {
     const correo = correoRegistro.value.trim();
     const clave  = claveRegistro.value.trim();
  
-    if (nombre === "" || correo === "" || clave === "") {
-        mensajeRegistro.textContent = "Todos los campos son obligatorios.";
-        mensajeRegistro.style.color = "#dc2626";
+    // Validar nombre
+    if (!validarNombre(nombre)) {
+        mostrarMensaje("error-nombre-registro", "El nombre debe tener al menos 2 caracteres");
         return;
+    } else {
+        ocultarMensaje("error-nombre-registro");
     }
  
-    if (clave.length < 6) {
-        mensajeRegistro.textContent = "La contraseña debe tener al menos 6 caracteres.";
-        mensajeRegistro.style.color = "#dc2626";
+    // Validar email
+    if (!validarEmail(correo)) {
+        mostrarMensaje("error-correo-registro", "Ingresa un correo electrónico válido");
         return;
+    } else {
+        ocultarMensaje("error-correo-registro");
+    }
+ 
+    // Validar contraseña
+    if (!validarClave(clave)) {
+        mostrarMensaje("error-clave-registro", "La contraseña debe tener al menos 6 caracteres");
+        return;
+    } else {
+        ocultarMensaje("error-clave-registro");
     }
  
     const usuariosGuardados = localStorage.getItem("usuariosNovaStreet");
     let usuarios = [];
  
     if (usuariosGuardados !== null) {
-        usuarios = JSON.parse(usuariosGuardados);
+        try {
+            usuarios = JSON.parse(usuariosGuardados);
+        } catch (error) {
+            console.error('Error parsing usuarios:', error);
+            localStorage.removeItem("usuariosNovaStreet");
+            usuarios = [];
+        }
     }
  
     let existeUsuario = false;
@@ -63,6 +81,20 @@ formRegistro.addEventListener("submit", function (evento) {
     setTimeout(function () {
         window.location.href = "login.html"; // ✅ mismo nivel
     }, 1200);
+});
+ 
+//VALIDACIÓN EN TIEMPO REAL
+ 
+nombreRegistro.addEventListener("input", function() {
+    validarCampo(this, "error-nombre-registro", "El nombre debe tener al menos 2 caracteres");
+});
+ 
+correoRegistro.addEventListener("input", function() {
+    validarCampo(this, "error-correo-registro", "Ingresa un correo electrónico válido");
+});
+ 
+claveRegistro.addEventListener("input", function() {
+    validarCampo(this, "error-clave-registro", "La contraseña debe tener al menos 6 caracteres");
 });
 
  
