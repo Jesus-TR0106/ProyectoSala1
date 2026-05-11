@@ -1,46 +1,57 @@
-// Los datos de producto se cargan desde js/products.js
+const products = [
+  { id:3,  qty:0, name:"Jogger premium",           cat:"Hombre", subcat:"Pantalones", price:139,             image:"img/Jogger-premium-h.png",        bg:"#E1F5EE", badge:"new"  },
+  { id:4,  qty:0, name:"Camiseta essentials",      cat:"Hombre", subcat:"Tops",       price:79,  oldPrice:110,image:"img/Camiseta-essentials.jpg",     bg:"#FAECE7", badge:"sale" },
+  { id:6,  qty:0, name:"Chaqueta denim",           cat:"Hombre", subcat:"Casacas",    price:199, oldPrice:260,image:"img/Chaqueta-denim.png",          bg:"#F1EFE8", badge:"sale" },
+  { id:8,  qty:0, name:"Camisa stretch",           cat:"Hombre", subcat:"Tops",       price:"89.95",         image:"img/Camisa-stretch.png",          bg:"#FAECE7", badge:"new"  },
+  { id:10, qty:0, name:"Chompa con medio cierre",  cat:"Hombre", subcat:"Tops",       price:"89.95",         image:"img/Chompa-con-medio-cierre.png", bg:"#FAECE7", badge:"new"  },
+  { id:12, qty:0, name:"Casaca de beisbol",        cat:"Hombre", subcat:"Casacas",    price:"159",           image:"img/Casaca-de-beisbol.png",       bg:"#FAECE7", badge:"new"  },
+  { id:14, qty:0, name:"Pantalon jogger",          cat:"Hombre", subcat:"Pantalones", price:"159",           image:"img/Pantalon-jogger.png",         bg:"#FAECE7", badge:"new"  },
+  { id:16, qty:0, name:"Jean Clasicos",            cat:"Hombre", subcat:"Pantalones", price:"86", oldPrice:150,image:"img/Jean-h.png",                bg:"#FAECE7", badge:"sale" },
+  { id:18, qty:0, name:"Polo con cuello",          cat:"Hombre", subcat:"Tops",       price:"49",            image:"img/polo.png",                   bg:"#FAECE7", badge:"new"  },
+  { id:20, qty:0, name:"Chaqueta de Cuero",        cat:"Hombre", subcat:"Casacas",    price:"79",            image:"img/Chaqueta-cuero-h.png",        bg:"#E1F5EE", badge:"new"  },
+  { id:22, qty:0, name:"Camisa Manga Larga",       cat:"Hombre", subcat:"Tops",       price:"37",            image:"img/Camisa-h.png",                bg:"#FAECE7", badge:"new"  },
+  { id:24, qty:0, name:"Chaqueta Cortaviento",     cat:"Hombre", subcat:"Casacas",    price:"62",            image:"img/Casaca-h.png",                bg:"#E1F5EE", badge:"new"  },
+  { id:26, qty:0, name:"Polo Manga Larga",         cat:"Hombre", subcat:"Tops",       price:"83",            image:"img/Polo-manga-larga-h.png",      bg:"#FAECE7", badge:"new"  },
+  { id:28, qty:0, name:"Abrigo de Lana",           cat:"Hombre", subcat:"Abrigos",    price:"98",            image:"img/Abrigo-lana-h.png",           bg:"#E1F5EE", badge:"new"  },
+  { id:30, qty:0, name:"Abrigo Largo de Vestir",   cat:"Hombre", subcat:"Abrigos",    price:"73", oldPrice:120,image:"img/Abrigo-h.png",              bg:"#FAECE7", badge:"sale" },
+  { id:32, qty:0, name:"Abrigo con Capucha",       cat:"Hombre", subcat:"Abrigos",    price:"85",            image:"img/Abrigo-capucha-h.png",        bg:"#E1F5EE", badge:"new"  },
+  { id:34, qty:0, name:"Abrigo para el Invierno",  cat:"Hombre", subcat:"Abrigos",    price:"45",            image:"img/Abrigo-frio-h.png",           bg:"#FAECE7", badge:"new"  },
+  { id:36, qty:0, name:"Abrigo de Lana",           cat:"Hombre", subcat:"Abrigos",    price:"82",            image:"img/Abrigo-lana2-h.png",          bg:"#E1F5EE", badge:"new"  },
+  { id:38, qty:0, name:"Abrigo Largo de Lana",     cat:"Hombre", subcat:"Abrigos",    price:"73",            image:"img/Abrigo2-h.png",               bg:"#FAECE7", badge:"new"  },
+  { id:40, qty:0, name:"Abrigo Largo con Capucha", cat:"Hombre", subcat:"Abrigos",    price:"84", oldPrice:160,image:"img/Abrigo-capucha2-h.png",     bg:"#E1F5EE", badge:"sale" },
+];
  
 let cartCount       = 0;
 let currentFilter   = "Todos";
 let currentSaleFilter = false;
  
-//RESTAURAR CARRITO DESDE LOCALSTORAGE
+/* =========================================================
+   RESTAURAR CARRITO DESDE LOCALSTORAGE
+   ========================================================= */
 (function restaurarCarrito() {
   const guardado = localStorage.getItem("carritoNovaStreet");
   if (!guardado) return;
  
-  try {
-    const items = JSON.parse(guardado);
-    // Restaurar qty de los productos que ya estaban en el carrito
-    items.forEach(function (item) {
-      const p = products.find(function (p) { return p.id === item.id; });
-      if (p) { p.qty = item.qty; }
-    });
-  } catch (error) {
-    console.error('Error parsing carrito:', error);
-    localStorage.removeItem("carritoNovaStreet");
-  }
+  const items = JSON.parse(guardado);
+ 
+  // Restaurar qty de los productos que ya estaban en el carrito
+  items.forEach(function (item) {
+    const p = products.find(function (p) { return p.id === item.id; });
+    if (p) { p.qty = item.qty; }
+  });
  
   // Recalcular el contador del navbar
   cartCount = products.reduce(function (sum, p) { return sum + p.qty; }, 0);
   document.getElementById('cart-count').textContent = cartCount;
 })();
  
-//GUARDAR CARRITO EN LOCALSTORAGE
+/* =========================================================
+   GUARDAR CARRITO EN LOCALSTORAGE
+   ========================================================= */
 function guardarCarritoLocal() {
   // Leer el carrito actual guardado para no perder items de otras páginas
   const guardado = localStorage.getItem("carritoNovaStreet");
-  let carritoActual = [];
-  
-  if (guardado) {
-    try {
-      carritoActual = JSON.parse(guardado);
-    } catch (error) {
-      console.error('Error parsing carrito:', error);
-      localStorage.removeItem("carritoNovaStreet");
-      carritoActual = [];
-    }
-  }
+  let carritoActual = guardado ? JSON.parse(guardado) : [];
  
   // Actualizar o agregar los productos de esta página
   products.forEach(function (p) {
@@ -64,7 +75,28 @@ function guardarCarritoLocal() {
   document.getElementById('cart-count').textContent = totalGlobal;
 }
  
-//CARRITO
+/* =========================================================
+   FILTROS
+   ========================================================= */
+function setTodosFilter(btn) {
+  document.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  currentFilter     = "Todos";
+  currentSaleFilter = false;
+  document.querySelectorAll('.cat-card').forEach(function (c) { c.classList.remove('active-cat'); });
+  renderProducts();
+}
+ 
+function setSaleFilter(btn) {
+  currentSaleFilter = !currentSaleFilter;
+  btn.classList.toggle('active', currentSaleFilter);
+  document.querySelectorAll('.cat-card').forEach(function (c) { c.classList.remove('active-cat'); });
+  renderProducts();
+}
+ 
+/* =========================================================
+   CARRITO
+   ========================================================= */
 function addToCart(id) {
   const p = products.find(function (p) { return p.id === id; });
   if (!p) return;
@@ -73,7 +105,7 @@ function addToCart(id) {
   const toast = document.getElementById('toast');
   toast.classList.add('show');
   setTimeout(function () { toast.classList.remove('show'); }, 2200);
-  guardarCarritoLocal(); //  sincroniza con localStorage
+  guardarCarritoLocal(); // ✅ sincroniza con localStorage
   renderProducts();
   renderCartBar();
 }
@@ -83,7 +115,7 @@ function removeFromCart(id) {
   if (!p || p.qty === 0) return;
   p.qty--;
   cartCount--;
-  guardarCarritoLocal(); //  sincroniza con localStorage
+  guardarCarritoLocal(); // ✅ sincroniza con localStorage
   renderProducts();
   renderCartBar();
 }
@@ -99,16 +131,7 @@ function renderCartBar() {
   if (!items.length) {
     // Si no hay items en esta página, revisar si hay en otras páginas
     const guardado = localStorage.getItem("carritoNovaStreet");
-    let global = [];
-    if (guardado) {
-      try {
-        global = JSON.parse(guardado);
-      } catch (error) {
-        console.error('Error parsing carrito:', error);
-        localStorage.removeItem("carritoNovaStreet");
-        global = [];
-      }
-    }
+    const global   = guardado ? JSON.parse(guardado) : [];
     if (!global.length) {
       bar.classList.remove('visible');
       return;
@@ -128,12 +151,13 @@ function renderCartBar() {
   bar.classList.add('visible');
 }
  
-//RENDER PRODUCTOS
+/* =========================================================
+   RENDER PRODUCTOS
+   ========================================================= */
 function renderProducts() {
   const grid = document.getElementById('products-grid');
  
-  // FILTRAR PRIMERO POR HOMBRES
-  let filtered = products.filter(function (p) { return p.cat === "Hombre"; });
+  let filtered = products;
  
   if (currentFilter !== "Todos") {
     filtered = filtered.filter(function (p) { return p.subcat === currentFilter; });
@@ -166,7 +190,9 @@ function renderProducts() {
   }).join('');
 }
  
-//FILTRO POR CATEGORÍA (click en cat-card)
+/* =========================================================
+   FILTRO POR CATEGORÍA (click en cat-card)
+   ========================================================= */
 document.querySelectorAll('.cat-card').forEach(function (card) {
   card.addEventListener('click', function () {
     const cat = card.getAttribute('data-cat');
@@ -179,87 +205,8 @@ document.querySelectorAll('.cat-card').forEach(function (card) {
   });
 });
  
-//INICIO
-renderProducts();
-renderCartBar();
-
-// GUÍA DE TALLAS
-function openSizeGuide() {
-  const modal = document.getElementById('size-modal');
-  modal.classList.add('active');
-  
-  document.addEventListener('keydown', function escapeHandler(e) {
-    if (e.key === 'Escape') {
-      closeSizeGuide();
-      document.removeEventListener('keydown', escapeHandler);
-    }
-  });
-}
-
-function closeSizeGuide(e) {
-  if (e && e.target.id !== 'size-modal') return;
-  const modal = document.getElementById('size-modal');
-  modal.classList.remove('active');
-}
-
-// OVERRIDE: RENDERIZAR PRODUCTOS CON FAVORITOS
-const originalRenderProducts = renderProducts;
-
-(function() {
-  const oldRenderProducts = window.renderProducts;
-  
-  window.renderProducts = function() {
-    const grid = document.getElementById('products-grid');
-    let filtered;
-    
-    if (currentFilter === "Favoritos") {
-      filtered = products.filter(p => isFavorited(p.id));
-      if (filtered.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #999890;">No tienes productos favoritos</div>';
-        return;
-      }
-    } else if (currentFilter === "Todos") {
-      filtered = products.filter(p => p.cat === "Hombre");
-    } else if (currentFilter === "Sale") {
-      filtered = products.filter(p => p.cat === "Hombre" && p.badge === "sale");
-    } else if (["Mujer","Hombre"].includes(currentFilter)) {
-      filtered = products.filter(p => p.cat === currentFilter);
-    } else if (categoryMap[currentFilter]) {
-      filtered = products.filter(p => p.cat === "Hombre" && categoryMap[currentFilter](p));
-    } else {
-      filtered = products.filter(p => p.cat === "Hombre");
-    }
-
-    grid.innerHTML = filtered.map(p => `
-      <div class="product-card">
-        <div class="product-img" style="background:${p.bg};position:relative;">
-          ${p.badge ? `<span class="badge ${p.badge === 'new' ? 'badge-new' : 'badge-sale'}">${p.badge === 'new' ? 'Nuevo' : 'Sale'}</span>` : ''}
-          <button class="heart-icon ${isFavorited(p.id) ? 'favorited' : ''}" onclick="toggleFavorite(${p.id}); event.stopPropagation();" title="Agregar a favoritos" style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.9);border-radius:50%;padding:4px;display:flex;align-items:center;justify-content:center;">${isFavorited(p.id) ? '❤️' : '🤍'}</button>
-          <img src="${p.image}" alt="${p.name}" style="width:100px;height:auto"/>
-        </div>
-        <div class="product-info">
-          <div class="product-name">${p.name}</div>
-          <div class="product-cat">${p.cat}</div>
-          <div class="product-footer">
-            <div>
-              <span class="price">S/ ${p.price}</span>
-              ${p.oldPrice ? `<span class="price-old">S/ ${p.oldPrice}</span>` : ''}
-            </div>
-            <div class="qty-ctrl">
-              ${p.qty > 0 ? `
-                <button class="minus-btn" onclick="removeFromCart(${p.id})">−</button>
-                <span class="qty-num">${p.qty}</span>
-              ` : ''}
-              <button class="add-btn" onclick="addToCart(${p.id})">+</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    `).join('');
-  };
-})();
-
-// INICIALIZACIÓN
-restaurarFavoritos();
+/* =========================================================
+   INICIO
+   ========================================================= */
 renderProducts();
 renderCartBar();

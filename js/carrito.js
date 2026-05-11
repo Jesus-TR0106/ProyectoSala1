@@ -1,5 +1,11 @@
-
-//SESIÓN DE USUARIO
+/*
+    Archivo: js/carrito.js
+    Proyecto: Nova Street
+*/
+ 
+/* =========================================================
+   1. SESIÓN DE USUARIO
+   ========================================================= */
  
 const usuarioGuardado  = localStorage.getItem("usuarioActivoNovaStreet");
 let usuarioActivo      = null;
@@ -8,23 +14,14 @@ const nombreUsuarioEl  = document.getElementById("nombreUsuario");
 const btnSesion        = document.getElementById("btnSesion");
  
 if (usuarioGuardado !== null) {
-    try {
-      usuarioActivo = JSON.parse(usuarioGuardado);
-      nombreUsuarioEl.textContent = "Hola, " + usuarioActivo.nombre;
-      btnSesion.textContent = "Cerrar sesión";
-      btnSesion.addEventListener("click", function () {
-          localStorage.removeItem("usuarioActivoNovaStreet");
-          window.location.href = "Proyecto.html";
-      });
-    } catch (error) {
-      console.error('Error parsing usuario:', error);
-      localStorage.removeItem("usuarioActivoNovaStreet");
-      nombreUsuarioEl.textContent = "";
-      btnSesion.textContent = "Iniciar sesión";
-      btnSesion.addEventListener("click", function () {
-          window.location.href = "login.html";
-      });
-    }
+    usuarioActivo = JSON.parse(usuarioGuardado);
+    nombreUsuarioEl.textContent = "Hola, " + usuarioActivo.nombre;
+    btnSesion.textContent = "Cerrar sesión";
+    btnSesion.addEventListener("click", function () {
+        localStorage.removeItem("usuarioActivoNovaStreet");
+        window.location.href = "Proyecto.html";
+    });
+} else {
     nombreUsuarioEl.textContent = "";
     btnSesion.textContent = "Iniciar sesión";
     btnSesion.addEventListener("click", function () {
@@ -32,26 +29,24 @@ if (usuarioGuardado !== null) {
     });
 }
  
-//CARGAR CARRITO DESDE LOCALSTORAGE
+/* =========================================================
+   2. CARGAR CARRITO DESDE LOCALSTORAGE
+   ========================================================= */
  
 let carrito = [];
  
 const carritoGuardado = localStorage.getItem("carritoNovaStreet");
 if (carritoGuardado !== null) {
-    try {
-      carrito = JSON.parse(carritoGuardado);
-    } catch (error) {
-      console.error('Error parsing carrito:', error);
-      localStorage.removeItem("carritoNovaStreet");
-      carrito = [];
-    }
+    carrito = JSON.parse(carritoGuardado);
 }
  
 function guardarCarrito() {
     localStorage.setItem("carritoNovaStreet", JSON.stringify(carrito));
 }
  
-//RENDERIZAR LISTA
+/* =========================================================
+   3. RENDERIZAR LISTA
+   ========================================================= */
  
 function renderCarrito() {
     const lista      = document.getElementById("listaCarrito");
@@ -151,8 +146,10 @@ function renderCarrito() {
     envioEl.textContent    = envio === 0 ? "Gratis" : "S/ " + envio.toFixed(2);
     totalEl.textContent    = "S/ " + (subtotal + envio).toFixed(2);
 }
-
-// 4. ACCIONES DEL CARRITO
+ 
+/* =========================================================
+   4. ACCIONES DEL CARRITO
+   ========================================================= */
  
 function cambiarQty(id, delta) {
     for (let i = 0; i < carrito.length; i++) {
@@ -189,7 +186,9 @@ function aplicarPromo() {
     }
 }
  
-//CHECKOUT
+/* =========================================================
+   5. CHECKOUT
+   ========================================================= */
  
 document.getElementById("btnCheckout").addEventListener("click", function () {
     const msg     = document.getElementById("mensajeCarrito");
@@ -223,20 +222,10 @@ document.getElementById("formEnvio").addEventListener("submit", function (evento
     const telefono  = document.getElementById("telefono").value.trim();
     const msg       = document.getElementById("mensajeCarrito");
  
-    // Validar dirección
-    if (!validarDireccion(direccion)) {
-        mostrarMensaje("error-direccion", "La dirección debe tener al menos 10 caracteres");
+    if (direccion === "" || telefono === "") {
+        msg.textContent = "Completa direccion y telefono.";
+        msg.style.color = "#dc2626";
         return;
-    } else {
-        ocultarMensaje("error-direccion");
-    }
- 
-    // Validar teléfono
-    if (!validarTelefono(telefono)) {
-        mostrarMensaje("error-telefono", "Ingresa un número de teléfono válido (9 dígitos)");
-        return;
-    } else {
-        ocultarMensaje("error-telefono");
     }
  
     const activos = carrito.filter(function (p) { return p.qty > 0; });
@@ -255,16 +244,6 @@ document.getElementById("formEnvio").addEventListener("submit", function (evento
     document.getElementById("telefono").value  = "";
  
     setTimeout(function () { renderCarrito(); }, 800);
-});
- 
-//VALIDACIÓN EN TIEMPO REAL
- 
-document.getElementById("direccion").addEventListener("input", function() {
-    validarCampo(this, "error-direccion", "La dirección debe tener al menos 10 caracteres");
-});
- 
-document.getElementById("telefono").addEventListener("input", function() {
-    validarCampo(this, "error-telefono", "Ingresa un número de teléfono válido (9 dígitos)");
 });
  
 //INICIO

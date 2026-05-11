@@ -1,3 +1,8 @@
+/*
+    Archivo: js/login.js
+    Proyecto: Nova Street
+*/
+ 
 const formLogin    = document.getElementById("formLogin");
 const correoLogin  = document.getElementById("correoLogin");
 const claveLogin   = document.getElementById("claveLogin");
@@ -9,20 +14,10 @@ formLogin.addEventListener("submit", function (evento) {
     const correo = correoLogin.value.trim();
     const clave  = claveLogin.value.trim();
  
-    // Validar email
-    if (!validarEmail(correo)) {
-        mostrarMensaje("error-correo-login", "Ingresa un correo electrónico válido");
+    if (correo === "" || clave === "") {
+        mensajeLogin.textContent = "Ingresa tu correo y contraseña.";
+        mensajeLogin.style.color = "#dc2626";
         return;
-    } else {
-        ocultarMensaje("error-correo-login");
-    }
- 
-    // Validar contraseña
-    if (!validarClave(clave)) {
-        mostrarMensaje("error-clave-login", "La contraseña debe tener al menos 6 caracteres");
-        return;
-    } else {
-        ocultarMensaje("error-clave-login");
     }
  
     const usuariosGuardados = localStorage.getItem("usuariosNovaStreet");
@@ -33,15 +28,7 @@ formLogin.addEventListener("submit", function (evento) {
         return;
     }
  
-    let usuarios;
-    try {
-      usuarios = JSON.parse(usuariosGuardados);
-    } catch (error) {
-      console.error('Error parsing usuarios:', error);
-      mensajeLogin.textContent = "Error al leer datos. Intenta de nuevo.";
-      mensajeLogin.style.color = "#dc2626";
-      return;
-    }
+    const usuarios = JSON.parse(usuariosGuardados);
     let usuarioEncontrado = null;
  
     for (let i = 0; i < usuarios.length; i++) {
@@ -72,15 +59,4 @@ formLogin.addEventListener("submit", function (evento) {
             window.location.href = "Proyecto.html";  // ✅ nombre real del archivo
         }
     }, 1000);
-});
- 
-//VALIDACIÓN EN TIEMPO REAL
-    
- 
-correoLogin.addEventListener("input", function() {
-    validarCampo(this, "error-correo-login", "Ingresa un correo electrónico válido");
-});
- 
-claveLogin.addEventListener("input", function() {
-    validarCampo(this, "error-clave-login", "La contraseña debe tener al menos 6 caracteres");
 });
