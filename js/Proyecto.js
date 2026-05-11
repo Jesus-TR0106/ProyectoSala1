@@ -162,3 +162,40 @@
  
   renderProducts();
   renderCartBar(); // ✅ mostrar barra si había carrito guardado
+
+  // ✅ FUNCIONES PARA GUÍA DE TALLAS
+  function openSizeGuide() {
+    const modal = document.getElementById('sizeGuideModal');
+    modal.classList.add('active');
+  }
+
+  function closeSizeGuide() {
+    const modal = document.getElementById('sizeGuideModal');
+    modal.classList.remove('active');
+  }
+
+  function switchTab(tabName) {
+    // Ocultar todos los tabs
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabContents.forEach(tab => tab.classList.remove('active'));
+    
+    // Desactivar todos los botones
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    tabBtns.forEach(btn => btn.classList.remove('active'));
+    
+    // Mostrar el tab seleccionado
+    const selectedTab = document.getElementById(tabName + '-tab');
+    if (selectedTab) {
+      selectedTab.classList.add('active');
+    }
+    
+    // Activar el botón correspondiente
+    event.target.classList.add('active');
+  }
+
+  // Cerrar modal al hacer clic fuera de ella
+  document.getElementById('sizeGuideModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeSizeGuide();
+    }
+  });

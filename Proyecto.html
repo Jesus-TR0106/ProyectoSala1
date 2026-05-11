@@ -48,7 +48,7 @@
     <p>Prendas contemporáneas diseñadas para el día a día. Calidad premium, precios accesibles.</p>
     <div class="hero-btns">
       <button class="btn-primary">Ver colección</button>
-      <button class="btn-outline">Guía de tallas</button>
+      <button class="btn-outline" onclick="openSizeGuide()">Guía de tallas</button>
     </div>
   </div>
   <div class="hero-visual">
@@ -100,6 +100,152 @@
   <button class="btn-white">Ver ofertas</button>
 </div>
  
+<!-- MODAL DE GUÍA DE TALLAS -->
+<div class="modal" id="sizeGuideModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Guía de tallas</h2>
+      <button class="close-btn" onclick="closeSizeGuide()">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- TABS -->
+      <div class="tabs-container">
+        <button class="tab-btn active" onclick="switchTab('women')">Mujer</button>
+        <button class="tab-btn" onclick="switchTab('men')">Hombre</button>
+      </div>
+      
+      <!-- TAB CONTENT: MUJERES -->
+      <div class="tab-content active" id="women-tab">
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th>Talla</th>
+              <th>Pecho (cm)</th>
+              <th>Cintura (cm)</th>
+              <th>Caderas (cm)</th>
+              <th>Largo (cm)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="size-label">XS</td>
+              <td>82</td>
+              <td>62</td>
+              <td>88</td>
+              <td>62</td>
+            </tr>
+            <tr>
+              <td class="size-label">S</td>
+              <td>86</td>
+              <td>66</td>
+              <td>92</td>
+              <td>63</td>
+            </tr>
+            <tr>
+              <td class="size-label">M</td>
+              <td>90</td>
+              <td>70</td>
+              <td>96</td>
+              <td>64</td>
+            </tr>
+            <tr>
+              <td class="size-label">L</td>
+              <td>94</td>
+              <td>74</td>
+              <td>100</td>
+              <td>65</td>
+            </tr>
+            <tr>
+              <td class="size-label">XL</td>
+              <td>100</td>
+              <td>80</td>
+              <td>106</td>
+              <td>66</td>
+            </tr>
+            <tr>
+              <td class="size-label">XXL</td>
+              <td>106</td>
+              <td>86</td>
+              <td>112</td>
+              <td>67</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- TAB CONTENT: HOMBRES -->
+      <div class="tab-content" id="men-tab">
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th>Talla</th>
+              <th>Pecho (cm)</th>
+              <th>Cintura (cm)</th>
+              <th>Hombros (cm)</th>
+              <th>Largo (cm)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="size-label">S</td>
+              <td>88</td>
+              <td>76</td>
+              <td>42</td>
+              <td>68</td>
+            </tr>
+            <tr>
+              <td class="size-label">M</td>
+              <td>92</td>
+              <td>80</td>
+              <td>44</td>
+              <td>69</td>
+            </tr>
+            <tr>
+              <td class="size-label">L</td>
+              <td>96</td>
+              <td>84</td>
+              <td>46</td>
+              <td>70</td>
+            </tr>
+            <tr>
+              <td class="size-label">XL</td>
+              <td>102</td>
+              <td>90</td>
+              <td>48</td>
+              <td>71</td>
+            </tr>
+            <tr>
+              <td class="size-label">XXL</td>
+              <td>108</td>
+              <td>96</td>
+              <td>50</td>
+              <td>72</td>
+            </tr>
+            <tr>
+              <td class="size-label">XXXL</td>
+              <td>114</td>
+              <td>102</td>
+              <td>52</td>
+              <td>73</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- INSTRUCCIONES -->
+      <div class="size-instructions">
+        <h4>Cómo medir correctamente:</h4>
+        <ul>
+          <li><strong>Pecho:</strong> Mide alrededor de la parte más ancha del pecho</li>
+          <li><strong>Cintura:</strong> Mide en la parte más estrecha de tu cintura</li>
+          <li><strong>Caderas (Mujer):</strong> Mide alrededor de la parte más ancha de tus caderas</li>
+          <li><strong>Largo:</strong> Mide desde el hombro hasta donde quieras que llegue la prenda</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-grid">
