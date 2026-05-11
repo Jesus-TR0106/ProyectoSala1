@@ -137,6 +137,9 @@
       <div class="product-card">
         <div class="product-img" style="background:${p.bg}">
           ${p.badge ? `<span class="badge ${p.badge === 'new' ? 'badge-new' : 'badge-sale'}">${p.badge === 'new' ? 'Nuevo' : 'Sale'}</span>` : ''}
+          <button class="favorite-btn ${isFavorite(p.id) ? 'active' : ''}" onclick="toggleFavorite(${p.id}); renderProducts();" title="Agregar a favoritos">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
           <img src="${p.image}" alt="${p.name}" style="width:100px;height:auto"/>
         </div>
         <div class="product-info">
@@ -199,3 +202,136 @@
       closeSizeGuide();
     }
   });
+
+  // ✅ FUNCIONES PARA BÚSQUEDA
+  function openSearch() {
+    const modal = document.getElementById('searchModal');
+    modal.classList.add('active');
+    document.getElementById('searchInput').focus();
+    document.getElementById('searchInput').addEventListener('input', performSearch);
+  }
+
+  function closeSearch() {
+    const modal = document.getElementById('searchModal');
+    modal.classList.remove('active');
+    document.getElementById('searchInput').value = '';
+    document.getElementById('searchInput').removeEventListener('input', performSearch);
+    document.getElementById('searchResults').innerHTML = '';
+  }
+
+function performSearch(e) {
+  const query = e.target.value.toLowerCase().trim();
+  const resultsContainer = document.getElementById('searchResults');
+  
+  if (!query) {
+    resultsContainer.innerHTML = '<div class="search-empty">Escribe para buscar productos</div>';
+    return;
+  }
+
+  const filtered = products.filter(p => 
+    p.name.toLowerCase().includes(query) || 
+    p.cat.toLowerCase().includes(query)
+  );
+
+  if (filtered.length === 0) {
+    resultsContainer.innerHTML = '<div class="search-empty">No se encontraron productos</div>';
+    return;
+  }
+
+  resultsContainer.innerHTML = filtered.map(p => `
+    <div class="search-result-item" onclick="window.location.href='Proyecto.html'">
+      
+      <div class="search-result-img">
+        <img src="${p.image}" alt="${p.name}">
+      </div>
+
+      <div class="search-result-info">
+        <div class="search-result-name">${p.name}</div>
+        <div class="search-result-cat">${p.cat}</div>
+        <div class="search-result-price">S/ ${p.price}</div>
+        <button class="add-btn" onclick="addToCart(${p.id})">+</button>
+      </div>
+
+    </div>
+  `).join('');
+}
+
+
+  // Cerrar modal de búsqueda al hacer clic fuera
+  document.getElementById('searchModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeSearch();
+    }
+  });
+
+  // ✅ FUNCIONES PARA FAVORITOS
+  function openFavorites() {
+    const modal = document.getElementById('favoritesModal');
+    modal.classList.add('active');
+    renderFavorites();
+  }
+
+  function closeFavorites() {
+    const modal = document.getElementById('favoritesModal');
+    modal.classList.remove('active');
+  }
+
+  function toggleFavorite(productId) {
+    let favorites = JSON.parse(localStorage.getItem('novaFavorites')) || [];
+    
+    if (favorites.includes(productId)) {
+      favorites = favorites.filter(id => id !== productId);
+    } else {
+      favorites.push(productId);
+    }
+    
+    localStorage.setItem('novaFavorites', JSON.stringify(favorites));
+  }
+
+  function isFavorite(productId) {
+    const favorites = JSON.parse(localStorage.getItem('novaFavorites')) || [];
+    return favorites.includes(productId);
+  }
+
+  function renderFavorites() {
+    const favorites = JSON.parse(localStorage.getItem('novaFavorites')) || [];
+    const grid = document.getElementById('favoritesGrid');
+
+    if (favorites.length === 0) {
+      grid.innerHTML = '<div class="favorites-empty">No tienes productos favoritos aún</div>';
+      return;
+    }
+
+    const favoriteProducts = products.filter(p => favorites.includes(p.id));
+    grid.innerHTML = favoriteProducts.map(p => `
+      <div class="product-card">
+        <div class="product-img" style="background:${p.bg}">
+          ${p.badge ? `<span class="badge badge-${p.badge}">${p.badge === 'new' ? 'Nuevo' : 'Oferta'}</span>` : ''}
+          <img src="${p.image}" alt="${p.name}" style="width:100px;height:auto"/>
+        </div>
+        <div class="product-info">
+          <div class="product-name">${p.name}</div>
+          <div class="product-cat">${p.cat}</div>
+          <div class="product-footer">
+            <span class="price">S/ ${p.price}
+              ${p.oldPrice ? `<span class="price-old">S/ ${p.oldPrice}</span>` : ''}
+            </span>
+            <button class="add-btn" onclick="addToCart(${p.id})">+</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Cerrar modal de favoritos al hacer clic fuera
+  document.getElementById('favoritesModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeFavorites();
+    }
+  });
+  // Función para desplazarse a la sección de productos
+function scrollToProducts() {
+  document.getElementById("productos").scrollIntoView({
+    behavior: "smooth"
+  });
+}
