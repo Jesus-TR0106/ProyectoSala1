@@ -50,13 +50,13 @@ formLogin.addEventListener("submit", function (evento) {
     mensajeLogin.style.color = "#0F6E56";
  
     setTimeout(function () {
-        // Si vino desde el carrito, regresa ahí; si no, al inicio
         const origen = localStorage.getItem("novaOrigenLogin");
         if (origen === "carrito") {
             localStorage.removeItem("novaOrigenLogin");
-            window.location.href = "carrito.html";   // ✅ mismo nivel
+            window.location.href = "carrito.html";
         } else {
-            window.location.href = "Proyecto.html";  // ✅ nombre real del archivo
+            // Usamos index.html para evitar problemas de mayúsculas en Firebase
+            window.location.href = "index.html";
         }
     }, 1000);
 });
